@@ -8,15 +8,15 @@ try:
 except ImportError:
     MPI = None
 
-class MpiAdamOptimizer(tf.train.AdamOptimizer):
+class MpiAdamOptimizer(tf.optimizers.Adam()):
     """Adam optimizer that averages gradients across mpi processes."""
     def __init__(self, comm, grad_clip=None, mpi_rank_weight=1, **kwargs):
         self.comm = comm
         self.grad_clip = grad_clip
         self.mpi_rank_weight = mpi_rank_weight
-        tf.train.AdamOptimizer.__init__(self, **kwargs)
+        tf.optimizers.Adam.__init__(self, **kwargs)
     def compute_gradients(self, loss, var_list, **kwargs):
-        grads_and_vars = tf.train.AdamOptimizer.compute_gradients(self, loss, var_list, **kwargs)
+        grads_and_vars = tf.optimizers.Adam.compute_gradients(self, loss, var_list, **kwargs)
         grads_and_vars = [(g, v) for g, v in grads_and_vars if g is not None]
         flat_grad = tf.concat([tf.reshape(g, (-1,)) for g, v in grads_and_vars], axis=0) * self.mpi_rank_weight
         shapes = [v.shape.as_list() for g, v in grads_and_vars]
@@ -70,7 +70,7 @@ def check_synced(localval, comm=None):
 @with_mpi(timeout=5)
 def test_nonfreeze():
     np.random.seed(0)
-    tf.set_random_seed(0)
+    tf.random.set_seed(0)
 
     a = tf.Variable(np.random.randn(3).astype('float32'))
     b = tf.Variable(np.random.randn(2,5).astype('float32'))
