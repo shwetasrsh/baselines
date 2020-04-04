@@ -31,7 +31,7 @@ class Model(object):
         if MPI is not None and comm is None:
             comm = MPI.COMM_WORLD
 
-        with tf.compat.v1.variable_scope('ppo2_model', reuse=tf.AUTO_REUSE):
+        with tf.compat.v1.variable_scope('ppo2_model', reuse=tf.compat.v1.AUTO_REUSE):
             # CREATE OUR TWO MODELS
             # act_model that is used for sampling
             act_model = policy(nbatch_act, 1, sess)
