@@ -67,7 +67,7 @@ def make_session(config=None, num_cpu=None, make_default=False, graph=None):
         config.gpu_options.allow_growth = True
 
     if make_default:
-        return tf.InteractiveSession(config=config, graph=graph)
+        return tf.compat.v1.InteractiveSession(config=config, graph=graph)
     else:
         return tf.Session(config=config, graph=graph)
 
