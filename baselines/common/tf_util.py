@@ -50,7 +50,7 @@ def huber_loss(x, delta=1.0):
 
 def get_session(config=None):
     """Get default session or create one with a given config"""
-    sess = tf.get_default_session()
+    sess = tf.compat.v1.get_default_session()
     if sess is None:
         sess = make_session(config=config, make_default=True)
     return sess
@@ -252,14 +252,14 @@ class SetFromFlat(object):
         self.op = tf.group(*assigns)
 
     def __call__(self, theta):
-        tf.get_default_session().run(self.op, feed_dict={self.theta: theta})
+        tf.compat.v1.get_default_session.run(self.op, feed_dict={self.theta: theta})
 
 class GetFlat(object):
     def __init__(self, var_list):
         self.op = tf.concat(axis=0, values=[tf.reshape(v, [numel(v)]) for v in var_list])
 
     def __call__(self):
-        return tf.get_default_session().run(self.op)
+        return tf.compat.v1.get_default_session.run(self.op)
 
 def flattenallbut0(x):
     return tf.reshape(x, [-1, intprod(x.get_shape().as_list()[1:])])
@@ -327,7 +327,7 @@ def load_state(fname, sess=None):
     logger.warn('load_state method is deprecated, please use load_variables instead')
     sess = sess or get_session()
     saver = tf.train.Saver()
-    saver.restore(tf.get_default_session(), fname)
+    saver.restore(tf.compat.v1.get_default_session, fname)
 
 def save_state(fname, sess=None):
     from baselines import logger
@@ -337,7 +337,7 @@ def save_state(fname, sess=None):
     if any(dirname):
         os.makedirs(dirname, exist_ok=True)
     saver = tf.train.Saver()
-    saver.save(tf.get_default_session(), fname)
+    saver.save(tf.compat.v1.get_default_session, fname)
 
 # The methods above and below are clearly doing the same thing, and in a rather similar way
 # TODO: ensure there is no subtle differences and remove one
