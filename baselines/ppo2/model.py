@@ -1,4 +1,5 @@
-import tensorflow as tf
+#import tensorflow as tf
+import tensorflow.compat.v1 as tf
 import functools
 
 from baselines.common.tf_util import get_session, save_variables, load_variables
