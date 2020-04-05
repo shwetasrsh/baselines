@@ -1,6 +1,7 @@
 import os
 import numpy as np
-import tensorflow as tf
+#import tensorflow as tf
+import tensorflow.compat.v1 as tf
 from collections import deque
 
 def sample(logits):
