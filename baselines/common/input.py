@@ -1,9 +1,9 @@
 import numpy as np
-import tensorflow as tf
-#import tensorflow.compat.v1 as tf
-from tensorflow.python.framework.ops import disable_eager_execution
+#import tensorflow as tf
+import tensorflow.compat.v1 as tf
+#from tensorflow.python.framework.ops import disable_eager_execution
 
-disable_eager_execution()
+tf.compat.v1.disable_eager_execution()
 from gym.spaces import Discrete, Box, MultiDiscrete
 
 def observation_placeholder(ob_space, batch_size=None, name='Ob'):
