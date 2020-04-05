@@ -46,7 +46,8 @@ def conv(x, scope, *, nf, rf, stride, pad='VALID', init_scale=1.0, data_format='
     else:
         raise NotImplementedError
     bias_var_shape = [nf] if one_dim_bias else [1, nf, 1, 1]
-    nin = x.get_shape()[channel_ax].value
+    #nin = x.get_shape()[channel_ax].value
+    nin = x.get_shape()[channel_ax]
     wshape = [rf, rf, nin, nf]
     with tf.variable_scope(scope):
         w = tf.get_variable("w", wshape, initializer=ortho_init(init_scale))
